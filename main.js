@@ -1,48 +1,38 @@
 'use script'
 
 
-  
-  const book = [
-    {
-      title: "Fine balance",
-      author: "Federico Rivera",
-    },
-    {
-      title: "The mistery of the murderer",
-      author: "Sancho Perez",
-    },
-  ];
-  
-
-
 const titleInput = document.querySelector('.title-book-add');
 const authorInput = document.querySelector(".author-book-add");
 const btnAdd = document.querySelector(".btn-add");
 const bookDisplay = document.querySelector(".books-display");
-
-
-book.forEach((e,i) => {
-  const bookDetail = `
-    <div class="book-box">
-      <p class="book-position">${book[i].title}</p>
-      <p class="book-title">${book[i].author}</p>
-      <button class="remove-btn">Remove</button>
-      <div class="line-bottom"></div>
-    </div>
-  `;
-  bookDisplay.insertAdjacentHTML('beforeend', bookDetail);
-});
+  
+function Book(title, author) {
+  this.title = title;
+  this.author = author
+}
+function UI (){}
 
 
 //Add books
-const addBook = function() {
-  const newTitle = titleInput.value;
-  const newAuthor = authorInput.value;
-  console.log(newAuthor,newTitle);
-  const Book2 = Object.assign({},book);
-  //bookDisplay.innerHTML = JSON.stringify(book);
-  Book2.title = titleInput.value;
-  Book2.author= authorInput.value;
-  
+const addBook = function(e) {
+  const title = titleInput.value;
+  const author = authorInput.value;
+  const book = new Book(title,author);
+  const ui = new UI();
+  console.log(book, ui);
+  ui.addBooks(book);
+  e.preventDefault();
 }
 btnAdd.addEventListener('click', addBook);
+
+//Display books
+
+UI.prototype.addBooks = function(book) {
+  const bookDetail = document.createElement('div');
+  bookDetail.innerHTML = 
+  `<p class="book-position">${book.title}</p>
+  <p class="book-title">${book.author}</p>
+  <button class="remove-btn">Remove</button>
+  <div class="line-bottom"></div>`
+  bookDisplay.appendChild(bookDetail);
+}
