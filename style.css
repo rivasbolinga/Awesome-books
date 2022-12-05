@@ -1,0 +1,16 @@
+
+.line-bottom{
+  height: 1px;
+  width: 220px;
+  background-color: black;
+  margin-top: 20px;
+}
+
+.title-book-form {
+  margin-top: 20px;
+}
+
+.author-book-form {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
