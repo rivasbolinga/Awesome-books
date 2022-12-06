@@ -16,10 +16,12 @@ const bookList = [
   title: "book 2", 
   author: "author 2" } ];
 
-// Create a Book:
+// Display books
+
 const displayBook = function() {
+  let html= "";
   bookList.forEach((e,i) => {
-  const bookDetail = `
+  html  += `
     <div class="book-box">
       <p class="book-position">${bookList[i].title}</p>
       <p class="book-title">${bookList[i].author}</p>
@@ -27,10 +29,10 @@ const displayBook = function() {
       <div class="line-bottom"></div>
     </div>
   `;
-  bookDisplay.insertAdjacentHTML('beforebegin', bookDetail);
 });
+bookDisplay.innerHTML = html;
 }
-
+// create book
 const createBook = function (e) {
   e.preventDefault()
   const newBook = {};
@@ -39,11 +41,22 @@ const createBook = function (e) {
   bookList.push(newBook);
   console.log(bookList);
   displayBook();
+  newTitle.value = newAuthor.value = "";
 }
-
 btnAdd.addEventListener("click",createBook);
 
+// show books when you refresh
 window.addEventListener('load', () => {
   displayBook();
 });
 
+//remove book
+
+const deleteBook = function(target) {
+
+}
+bookDisplay.addEventListener('click', deleteBook);
+
+document.querySelectorAll('btn-remove').forEach((btnRemove) => {
+  btnRemove.addEventListener('click', remove(btnRemove));
+});
