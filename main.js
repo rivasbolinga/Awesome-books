@@ -22,6 +22,7 @@ const addBook = function(e) {
   ui.addBook(book);
   ui.clear();
   e.preventDefault();
+  localStorage.setItem('book', JSON.stringify(book));
 }
 btnAdd.addEventListener('click', addBook);
 
