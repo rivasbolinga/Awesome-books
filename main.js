@@ -1,58 +1,49 @@
 'use script'
 
-const titleInput = document.querySelector('.title-book-add');
-const authorInput = document.querySelector(".author-book-add");
+const newTitle = document.querySelector('#title-book-add');
+const newAuthor = document.querySelector(".author-book-add");
 const btnAdd = document.querySelector(".btn-add");
 const btnRemove = document.querySelector(".btn-remove");
 const bookDisplay = document.querySelector(".books-display");
 
-function Book(title, author) {
-  this.title = title;
-  this.author = author;
-}
-function UI (){}
 
-// ADD BOOKS
-const addBook = function(e) {
-  const title = titleInput.value;
-  const author = authorInput.value;
-  const book = new Book(title,author);
-  const ui = new UI();
-  console.log(book, ui);
-  ui.addBook(book);
-  ui.clear();
-  e.preventDefault();
-  localStorage.setItem('book', JSON.stringify(book));
-}
-btnAdd.addEventListener('click', addBook);
+const bookList = [ 
+  { 
+    title: "book 1", 
+    author: "author 1" 
+  },
+ { 
+  title: "book 2", 
+  author: "author 2" } ];
 
-UI.prototype.addBook = function(book) {
-  const bookDetail = document.createElement('div');
-  bookDetail.innerHTML =
-  `<p class="book-position">${book.title}</p>
-  <p class="book-title">${book.author}</p>
-  <button class="btn-remove">Remove</button>
-  <div class="line-bottom"></div>`
-  bookDisplay.appendChild(bookDetail);
+// Create a Book:
+const displayBook = function() {
+  bookList.forEach((e,i) => {
+  const bookDetail = `
+    <div class="book-box">
+      <p class="book-position">${bookList[i].title}</p>
+      <p class="book-title">${bookList[i].author}</p>
+      <button class="remove-btn">Remove</button>
+      <div class="line-bottom"></div>
+    </div>
+  `;
+  bookDisplay.insertAdjacentHTML('beforebegin', bookDetail);
+});
 }
 
-// DELETE BOOKS
-const deleteBook = function(e) {
-  const ui = new UI();
-  console.log(e.target);
-  ui.deleteBook(e.target);
-  e.preventDefault();
-}
-bookDisplay.addEventListener('click', deleteBook);
-
-UI.prototype.deleteBook = function(target) {
-  if(target.className === 'btn-remove') {
-    target.parentElement.remove();
-  }
+const createBook = function (e) {
+  e.preventDefault()
+  const newBook = {};
+  newBook.title = newTitle.value;
+  newBook.author = newAuthor.value;
+  bookList.push(newBook);
+  console.log(bookList);
+  displayBook();
 }
 
-// CLEAR FORM FIELDS
-UI.prototype.clear = function() {
-  titleInput.value = '';
-  authorInput.value = '';
-}
+btnAdd.addEventListener("click",createBook);
+
+window.addEventListener('load', () => {
+  displayBook();
+});
+
