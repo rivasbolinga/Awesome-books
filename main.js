@@ -20,6 +20,7 @@ const addBook = function(e) {
   const ui = new UI();
   console.log(book, ui);
   ui.addBook(book);
+  ui.clear();
   e.preventDefault();
 }
 btnAdd.addEventListener('click', addBook);
@@ -47,4 +48,10 @@ UI.prototype.deleteBook = function(target) {
   if(target.className === 'btn-remove') {
     target.parentElement.remove();
   }
+}
+
+// CLEAR FORM FIELDS
+UI.prototype.clear = function() {
+  titleInput.value = '';
+  authorInput.value = '';
 }
