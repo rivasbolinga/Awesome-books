@@ -126,10 +126,9 @@ bookDisplay.addEventListener('click', (e) => {
   e.preventDefault();
   const newTitle = titleInput.value;
   const newAuthor = authorInput.value;
-  // eslint-disable-next-line new-cap
   const newBook = new Book(newTitle, newAuthor);
   const ui = new UI();
-  ui.deleteBook(newBook);
+  ui.deleteBook(e.target);
 });
 
 UI.prototype.deleteBook = (target) => {
