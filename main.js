@@ -7,25 +7,12 @@ const titleInput = document.querySelector('.title-book-add');
 const authorInput = document.querySelector('.author-book-add');
 const btnAdd = document.querySelector('.btn-add');
 const bookDisplay = document.querySelector('.books-display');
-
-// CREATE ARRAY OF OBJECTS
-// let book = [
-//   {
-//     id: 0,
-//     title: 'QWERTY',
-//     author: 'Henschel',
-//   },
-//   {
-//     id: 1,
-//     title: 'AZERTY',
-//     author: 'Milton',
-//   },
-// ];
+const bookDetail = document.querySelector('.books-detail');
 
 // DECLARE CLASSES
 class Book {
-  constructor(title, author) {
-    // this.id = id;
+  constructor(title, author, id) {
+    this.id = id;
     this.title = title;
     this.author = author;
   }
@@ -34,12 +21,42 @@ class Book {
 class UI {}
 
 // LOCAL STORAGE
-// const bookValue = JSON.parse(localStorage.getItem('book'));
-// if (bookValue === 0 || bookValue === null) {
-//   localStorage.setItem('local', JSON.stringify(book));
-// } else {
-//   book = bookValue;
-// }
+class LocalBook {
+  static getBooks() {
+    let book;
+    const getBook = localStorage.getItem('book');
+    if (getBook === null) {
+      book = [];
+    } else {
+      book = JSON.parse(getBook);
+    }
+    return book;
+  }
+
+  static showBooks() {
+    const book = LocalBook.getBooks();
+    book.forEach((newBook) => {
+      const ui = new UI();
+      ui.addBook(newBook);
+    });
+  }
+
+  static addBooks(newBook) {
+    const book = LocalBook.getBooks();
+    book.push(newBook);
+    localStorage.setItem('local', JSON.stringify(book));
+  }
+
+  static deleteBooks(newId) {
+    const book = LocalBook.getBooks();
+    book.forEach((book, i) => {
+      if (book.id === newId) {
+        book.splice(i, 1);
+      }
+    });
+    localStorage.setItem('local', JSON.stringify(book));
+  }
+}
 
 // CREATE BOOK SECTION
 // for (let i = 0; i < book.length; i += 1) {
@@ -55,6 +72,7 @@ class UI {}
 // }
 
 // ADD BOOKS
+
 // btnAdd.addEventListener('click', (e) => {
 //   e.preventDefault();
 //   const newTitle = titleInput.value;
@@ -99,36 +117,25 @@ btnAdd.addEventListener('click', (e) => {
   const newBook = new Book(newTitle, newAuthor);
   const ui = new UI();
   ui.addBook(newBook);
+  LocalBook.addBooks(newBook);
 });
 
 UI.prototype.addBook = (newBook) => { // id="${newBook.id}"
   const bookInfo = `
-    <div>
-      <p class="book-position">${newBook.title}</p>
-      <p class="book-title">${newBook.author}</p>
-      <button class="btn-remove">Remove</button>
-      <div class="line-bottom"></div>
-    </div>
+      <div>
+        <p class="book-position">"<span class="">${newBook.title}</span>" by <span class="">${newBook.author}</span></p>
+        <button id="" class="btn-remove">Remove</button>
+      </div>
   `;
-  bookDisplay.innerHTML += bookInfo;
+  bookDetail.innerHTML += bookInfo;
 };
 
 // REMOVE BOOKS
-// bookDisplay.addEventListener('click', (e) => {
-//   if (e.target.className === 'btn-remove') {
-//     const { id } = e.target;
-//     book = book.filter((bk) => JSON.stringify(bk.id) !== id);
-//     localStorage.setItem('local', JSON.stringify(book)); // LOCAL STORAGE
-//     e.target.parentElement.remove();
-//   }
-// });
 bookDisplay.addEventListener('click', (e) => {
   e.preventDefault();
-  const newTitle = titleInput.value;
-  const newAuthor = authorInput.value;
-  const newBook = new Book(newTitle, newAuthor);
   const ui = new UI();
   ui.deleteBook(e.target);
+  // LocalBook.deleteBooks(e.target.parentElement.previousElementSibling.textContent);
 });
 
 UI.prototype.deleteBook = (target) => {
