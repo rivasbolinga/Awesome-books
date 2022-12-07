@@ -1,4 +1,4 @@
-'use script'
+'use script';
 
 // CREATE
 let book = [
@@ -15,21 +15,20 @@ let book = [
 ];
 
 const titleInput = document.querySelector('.title-book-add');
-const authorInput = document.querySelector(".author-book-add");
-const btnAdd = document.querySelector(".btn-add");
-const btnRemove = document.querySelector(".btn-remove");
-const bookDisplay = document.querySelector(".books-display");
+const authorInput = document.querySelector('.author-book-add');
+const btnAdd = document.querySelector('.btn-add');
+const bookDisplay = document.querySelector('.books-display');
 
 // LOCAL STORAGE
 const bookValue = JSON.parse(localStorage.getItem('book'));
-if(bookValue === 0 || bookValue === null){
+if (bookValue === 0 || bookValue === null) {
   localStorage.setItem('local', JSON.stringify(book));
-} else{
+} else {
   book = bookValue;
 }
 
 // CREATE BOOK SECTION
-for(let i = 0; i < book.length; i++){
+for (let i = 0; i < book.length; i += 1) {
   const bookInfo = `
     <div>
       <p class="book-position">${book[i].title}</p>
@@ -47,7 +46,7 @@ btnAdd.addEventListener('click', (e) => {
   const newTitle = titleInput.value;
   const newAuthor = authorInput.value;
   let newId;
-  let len = book.length;
+  const len = book.length;
   if (len === 0 || len === null) {
     newId = 0;
   } else {
@@ -57,7 +56,7 @@ btnAdd.addEventListener('click', (e) => {
     id: newId,
     title: newTitle,
     author: newAuthor,
-  }
+  };
   book.push(newBook);
   const bookInfo = `
     <div>
@@ -73,8 +72,8 @@ btnAdd.addEventListener('click', (e) => {
 
 // REMOVE BOOKS
 bookDisplay.addEventListener('click', (e) => {
-  if(e.target.className === 'btn-remove'){
-    const {id} = e.target;
+  if (e.target.className === 'btn-remove') {
+    const { id } = e.target;
     book = book.filter((bk) => JSON.stringify(bk.id) !== id);
     localStorage.setItem('local', JSON.stringify(book)); // LOCAL STORAGE
     e.target.parentElement.remove();
