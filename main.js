@@ -1,15 +1,15 @@
-'use script';
+"use script";
 
 // "max-classes-per-file": "off"
 
 // DECLARE VARIABLES
-const titleInput = document.querySelector('.title-book-add');
-const authorInput = document.querySelector('.author-book-add');
-const btnAdd = document.querySelector('.btn-add');
-const bookDisplay = document.querySelector('.books-display');
-const bookDetail = document.querySelector('.books-detail');
-const form = document.querySelector('.add-book-form');
-let newId = 0;
+const titleInput = document.querySelector(".title-book-add");
+const authorInput = document.querySelector(".author-book-add");
+const btnAdd = document.querySelector(".btn-add");
+const bookDisplay = document.querySelector(".books-display");
+const bookDetail = document.querySelector(".books-detail");
+const form = document.querySelector(".add-book-form");
+const newId = 0;
 
 // DECLARE CLASSES
 class Book {
@@ -23,8 +23,8 @@ class Book {
 class LocalStore {
   static getBooks() {
     let books;
-    const localBook = localStorage.getItem('local');
-    if (localBook === null || localBook === 0) {
+    const localBook = localStorage.getItem("local");
+    if (!localBook) {
       books = [];
     } else {
       books = JSON.parse(localBook);
@@ -34,14 +34,17 @@ class LocalStore {
 
   static addBooks(newBook) {
     const books = LocalStore.getBooks();
-    localStorage.setItem('local', JSON.stringify(books));
+    if (books) {
+      books.push(newBook);
+      localStorage.setItem("local", JSON.stringify(books));
+    }
   }
 
   static deleteBooks(id) {
     let books = LocalStore.getBooks();
     // const number = parseInt(id, 10);
     books = books.filter((newBook) => JSON.stringify(newBook.id) !== id);
-    localStorage.setItem('local', JSON.stringify(books));
+    localStorage.setItem("local", JSON.stringify(books));
   }
 }
 
@@ -54,7 +57,7 @@ class UI {
   }
 
   static addBookToList(newBook) {
-    // newBook.id = newId;
+    newBook.id = newId;
     const bookInfo = `
       <div>
         <p class="book-position">"<span class="">${newBook.title}</span>" by <span class="">${newBook.author}</span></p>
@@ -80,21 +83,27 @@ class UI {
 
 // REMOVE BOOKS
 
-btnAdd.addEventListener('click', (e) => {
+btnAdd.addEventListener("click", (e) => {
   e.preventDefault();
   const title = titleInput.value;
   const author = authorInput.value;
-  const id = newId;
-  const newBook = new Book(title, author, id);
+  const newBook = new Book(title, author);
   LocalStore.addBooks(newBook);
   UI.addBookToList(newBook);
   form.reset();
 });
 
-bookDisplay.addEventListener('click', (e) => {
+bookDisplay.addEventListener("click", (e) => {
   e.preventDefault();
-  if (e.target.className === 'btn-remove') {
+  if (e.target.className === "btn-remove") {
     LocalStore.deleteBooks(e.target.parentElement.id);
     UI.deleteBookFromList(e.target.parentElement.id);
   }
 });
+
+const bookList = LocalStore.getBooks();
+bookList.forEach((book) => {
+  UI.addBookToList(book);
+});
+
+// UI.addBookToList()
