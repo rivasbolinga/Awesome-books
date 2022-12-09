@@ -9,14 +9,12 @@ const btnAdd = document.querySelector('.btn-add');
 const bookDisplay = document.querySelector('.books-display');
 const bookDetail = document.querySelector('.books-detail');
 const errorMsg = document.querySelector('.error-message');
-const header = document.querySelector('#header');
 const navList = document.querySelector('#nav-list');
 const navAdd = document.querySelector('#nav-add');
 const navContact = document.querySelector('#nav-contact');
 const page = document.querySelector('.section');
 const form = document.querySelector('.add-book-form');
 const contact = document.querySelector('#contact');
-const footer = document.querySelector('#footer');
 const timeInfo = document.querySelector('#time-info');
 let newId = 0;
 
@@ -152,7 +150,7 @@ function timeDisplay() {
   const today = `${day}, ${month} ${date}, ${year},`;
 
   let amOrPm;
-  const twelveHours = function () {
+  const twelveHours = () => {
     if (myDate.getHours() > 12) {
       amOrPm = 'PM';
       const twentyFourHourTime = myDate.getHours();
