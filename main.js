@@ -1,4 +1,4 @@
-// 'use script';
+'use script';
 
 // "max-classes-per-file": "off"
 
