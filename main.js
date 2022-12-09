@@ -9,6 +9,7 @@ const btnAdd = document.querySelector('.btn-add');
 const bookDisplay = document.querySelector('.books-display');
 const bookDetail = document.querySelector('.books-detail');
 const form = document.querySelector('.add-book-form');
+const errorMsg = document.querySelector('.error-message');
 let newId = 0;
 
 // DECLARE MAIN CLASS
@@ -85,8 +86,13 @@ btnAdd.addEventListener('click', (e) => {
     newId = books[len - 1].id + 1;
   }
   const newBook = new Book(newTitle, newAuthor, newId);
-  LocalStore.addBooks(newBook);
-  UI.addBookToList(newBook);
+  if (newTitle.length !== 0 && newAuthor.length !== 0) {
+    LocalStore.addBooks(newBook);
+    UI.addBookToList(newBook);
+    errorMsg.style.display = 'none';
+  } else {
+    errorMsg.style.display = 'block';
+  }
   form.reset();
 });
 

@@ -66,3 +66,7 @@ div#form-div {
   align-items: flex-end;
   gap: 1rem;
 }
+
+p.error-message {
+  color: #f00;
+}
