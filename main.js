@@ -9,7 +9,7 @@ const btnAdd = document.querySelector('.btn-add');
 const bookDisplay = document.querySelector('.books-display');
 const bookDetail = document.querySelector('.books-detail');
 const form = document.querySelector('.add-book-form');
-const newId = 0;
+let newId = 0;
 
 // DECLARE MAIN CLASS
 class Book {
@@ -42,12 +42,7 @@ class LocalStore {
     }
   }
 
-  static deleteBooks(id) {
-    let books = LocalStore.getBooks();
-    // const number = parseInt(id, 10);
-    books = books.filter((newBook) => JSON.stringify(newBook.id) !== id);
-    localStorage.setItem('local', JSON.stringify(books));
-  }
+  // static deleteBooks()
 }
 
 class UI {
@@ -61,19 +56,17 @@ class UI {
   static addBookToList(newBook) {
     newBook.id = newId;
     const bookInfo = `
-      <div>
+      <div id="${newId}">
         <p class="book-position">"<span class="">${newBook.title}</span>" by <span class="">${newBook.author}</span></p>
         <button id="${newId}" class="btn-remove">Remove</button>
       </div>
     `;
     bookDetail.innerHTML += bookInfo;
-    // newId += 1;
+    newId += 1;
   }
 
-  static deleteBookFromList() {
-    const item = document.getElementById(`${newId}`);
-    // item.parentElement.removeChild(item);
-    item.parentElement.remove();
+  static deleteBookFromList(e) {
+    e.parentElement.remove();
   }
 }
 
@@ -81,9 +74,17 @@ class UI {
 
 btnAdd.addEventListener('click', (e) => {
   e.preventDefault();
-  const title = titleInput.value;
-  const author = authorInput.value;
-  const newBook = new Book(title, author);
+  const books = LocalStore.getBooks();
+  const newTitle = titleInput.value;
+  const newAuthor = authorInput.value;
+  let newId;
+  const len = books.length;
+  if (len === 0 || len === null) {
+    newId = 0;
+  } else {
+    newId = books[len - 1].id + 1;
+  }
+  const newBook = new Book(newTitle, newAuthor, newId);
   LocalStore.addBooks(newBook);
   UI.addBookToList(newBook);
   form.reset();
@@ -94,8 +95,11 @@ btnAdd.addEventListener('click', (e) => {
 bookDisplay.addEventListener('click', (e) => {
   e.preventDefault();
   if (e.target.className === 'btn-remove') {
-    LocalStore.deleteBooks(e.target.parentElement.id);
-    UI.deleteBookFromList(e.target.parentElement.id);
+    const { id } = e.target;
+    let books = LocalStore.getBooks();
+    books = books.filter((bk) => JSON.stringify(bk.id) !== id);
+    localStorage.setItem('local', JSON.stringify(books)); // LOCAL STORAGE
+    UI.deleteBookFromList(e.target);
   }
 });
 
