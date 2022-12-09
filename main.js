@@ -8,8 +8,16 @@ const authorInput = document.querySelector('.author-book-add');
 const btnAdd = document.querySelector('.btn-add');
 const bookDisplay = document.querySelector('.books-display');
 const bookDetail = document.querySelector('.books-detail');
-const form = document.querySelector('.add-book-form');
 const errorMsg = document.querySelector('.error-message');
+const header = document.querySelector('#header');
+const navList = document.querySelector('#nav-list');
+const navAdd = document.querySelector('#nav-add');
+const navContact = document.querySelector('#nav-contact');
+const page = document.querySelector('.section');
+const form = document.querySelector('.add-book-form');
+const contact = document.querySelector('#contact');
+const footer = document.querySelector('#footer');
+const timeInfo = document.querySelector('#time-info');
 let newId = 0;
 
 // DECLARE MAIN CLASS
@@ -109,4 +117,60 @@ bookDisplay.addEventListener('click', (e) => {
   }
 });
 
+// MENU NAVIGATION
+
+navList.addEventListener('click', () => {
+  page.style.display = 'block';
+  form.style.display = 'none';
+  contact.style.display = 'none';
+});
+
+navAdd.addEventListener('click', () => {
+  page.style.display = 'none';
+  form.style.display = 'block';
+  contact.style.display = 'none';
+});
+
+navContact.addEventListener('click', () => {
+  page.style.display = 'none';
+  form.style.display = 'none';
+  contact.style.display = 'block';
+});
+
+// TIME DISPLAY
+function timeDisplay() {
+  const myDate = new Date();
+
+  const daysList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const monthsList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'August', 'October', 'November', 'December'];
+
+  const date = myDate.getDate();
+  const month = monthsList[myDate.getMonth()];
+  const year = myDate.getFullYear();
+  const day = daysList[myDate.getDay()];
+
+  const today = `${day}, ${month} ${date}, ${year},`;
+
+  let amOrPm;
+  const twelveHours = function () {
+    if (myDate.getHours() > 12) {
+      amOrPm = 'PM';
+      const twentyFourHourTime = myDate.getHours();
+      const conversion = twentyFourHourTime - 12;
+      return `${conversion}`;
+    }
+    amOrPm = 'AM';
+    return `${myDate.getHours()}`;
+  };
+  const hours = twelveHours();
+  const minutes = myDate.getMinutes();
+
+  const currentTime = `${hours}:${minutes} ${amOrPm}`;
+
+  timeInfo.innerHTML = `${today} ${currentTime}`;
+}
+
+// GENERAL
+
 document.addEventListener('DOMContentLoaded', UI.showBooks);
+document.addEventListener('DOMContentLoaded', timeDisplay);
