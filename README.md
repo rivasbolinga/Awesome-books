@@ -77,8 +77,9 @@ A basic website that allows users to add/remove books from a list.
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 <!-- > Add a link to your deployed project.-->
-- [Live Demo Link](https://miltonhenschel.github.io/Conference-Page/)
-<!--  - [Video presentation](https://www.loom.com/share/ea7190471a844c69bfe0f44099ecec13)-->
+
+- [Live Demo Link](https://miltonhenschel.github.io/Awesome-books/)
+<!--  - [Video presentation](https://www.loom.com/share/)-->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
